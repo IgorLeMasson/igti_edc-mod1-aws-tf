@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
-    bucket = "igti-iac-file-state"
+    bucket = "terraform-state-ilmp-igti-edc"
     key    = "terraform/igti-modulo-1/terraform.tfstate"
-    region = "us-east-2"
+    region = "us-east-1"
   }
 }
