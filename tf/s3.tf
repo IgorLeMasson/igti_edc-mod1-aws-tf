@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "data_lake" {
-  bucket = "igti-data-lake"
+  bucket = "datalake-ilmp-igti-edc"
 }
 
 resource "aws_s3_bucket_acl" "s3_acl_data_lake" {
@@ -25,6 +25,17 @@ resource "aws_s3_object" "object" {
   etag = filemd5("../rais_etl.py")
 }
 
+
+# Uploading files to S3
+resource "aws_s3_bucket_object" "datasets" {
+  for_each = fileset("../data/", "*.txt")
+  bucket = aws_s3_bucket.data_lake.id
+  key    = "${each.value}"
+  source = "./raw-data/RAIS/${each.value}"
+  etag   = filemd5("../data/${each.value}")
+}
+
+
 provider "aws" {
-  region = "us-east-2"
+  region = "us-east-1"
 }
