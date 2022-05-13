@@ -22,9 +22,10 @@ job.init(args["JOB_NAME"], args)
 java_import(spark._sc._jvm, "org.apache.spark.sql.api.python.*")
 
 rais = (
-    spark.read.csv("s3://igti-data-raw/RAIS/", header=True, sep=";", encoding="latin1")
+    spark.read.csv("s3://datalake-ilmp-igti-edc/raw-data/RAIS/", header=True, sep=";", encoding="latin1")
 )
 
+# Renaming columns
 rais = (
     rais
     .withColumnRenamed('Bairros SP', 'bairros_sp')
@@ -89,6 +90,7 @@ rais = (
     .withColumnRenamed('Ind Trab Parcial', 'ind_trab_parcial')
 )
 
+# Creating 'uf' column and changed several columns data types
 rais = (
     rais
     .withColumn("uf", f.col("municipio").cast('string').substr(1,2).cast('int'))
@@ -110,13 +112,14 @@ rais = (
     .withColumn("vl_rem_novembro_sc", f.regexp_replace("vl_rem_novembro_sc", ',', '.').cast('double'))
 )
 
+# Writing 'parquet' files
 (
     rais
     .coalesce(50)
     .write.mode('overwrite')
     .partitionBy('uf')
     .format('parquet')
-    .save('s3://igti-data-lake/rais/')
+    .save('s3://datalake-ilmp-igti-edc/staging/RAIS/')
 )
 
 job.commit()
