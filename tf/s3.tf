@@ -4,8 +4,8 @@ resource "aws_s3_bucket" "data_lake" {
 
 resource "aws_s3_bucket_acl" "s3_acl_data_lake" {
   bucket = aws_s3_bucket.data_lake.id
-  acl = "private"
 }
+
 
 resource "aws_s3_bucket" "scripts" {
   bucket = "igti-scripts"
