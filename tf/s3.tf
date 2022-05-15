@@ -6,7 +6,6 @@ resource "aws_s3_bucket_acl" "s3_acl_data_lake" {
   bucket = aws_s3_bucket.data_lake.id
 }
 
-
 resource "aws_s3_bucket" "scripts" {
   bucket = "igti-scripts"
 }
@@ -16,7 +15,6 @@ resource "aws_s3_bucket_acl" "s3_acl_scripts" {
   acl = "private"
 }
 
-
 resource "aws_s3_object" "object" {
   bucket = aws_s3_bucket.scripts.id
   key    = "rais_etl.py"
@@ -24,7 +22,6 @@ resource "aws_s3_object" "object" {
   source = "../rais_etl.py"
   etag = filemd5("../rais_etl.py")
 }
-
 
 # Uploading files to S3
 /* resource "aws_s3_bucket_object" "datasets" {
