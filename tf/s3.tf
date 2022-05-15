@@ -27,13 +27,13 @@ resource "aws_s3_object" "object" {
 
 
 # Uploading files to S3
-resource "aws_s3_bucket_object" "datasets" {
+/* resource "aws_s3_bucket_object" "datasets" {
   for_each = fileset("../data/", "*.txt")
   bucket = aws_s3_bucket.data_lake.id
   key    = "${each.value}"
   source = "./raw-data/RAIS/${each.value}"
   etag   = filemd5("../data/${each.value}")
-}
+} */
 
 
 provider "aws" {
