@@ -21,8 +21,9 @@ job.init(args["JOB_NAME"], args)
 
 java_import(spark._sc._jvm, "org.apache.spark.sql.api.python.*")
 
+
 rais = (
-    spark.read.csv("s3://datalake-ilmp-igti-edc/raw-data/RAIS/", header=True, sep=";", encoding="latin1")
+    spark.read.csv("s3://datalake-ilmp-igti-edc/raw-data/RAIS/", header=True, inferSchema=True, sep=";", encoding="latin1")
 )
 
 # Renaming columns
